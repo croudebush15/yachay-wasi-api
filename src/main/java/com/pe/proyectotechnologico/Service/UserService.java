@@ -21,7 +21,8 @@ public class UserService {
 
     public Boolean userExists(User userLogin){
         User user = repository.findByUsername(userLogin.getUsername());
-        if (Objects.equals(user.getPassword(), userLogin.getPassword()))
+        if (user == null) return false;
+        else if (Objects.equals(user.getPassword(), userLogin.getPassword()))
             return true;
         else return false;
     }
