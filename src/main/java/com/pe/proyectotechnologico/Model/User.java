@@ -13,21 +13,21 @@ import static javax.persistence.GenerationType.IDENTITY;
 @NoArgsConstructor
 @Data
 @Entity
-@Table(name = "user", uniqueConstraints = @UniqueConstraint(columnNames = "USERNAME"))
+@Table(name = "user", uniqueConstraints = @UniqueConstraint(columnNames = "username"))
 public class User implements java.io.Serializable {
 
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
-	@Column(name = "ID", unique = true, nullable = false)
+	@Column(name = "id", unique = true, nullable = false)
 	private Integer id;
-	@Column(name = "USERNAME", unique = true)
+	@Column(name = "username", unique = true)
 	private String username;
-	@Column(name = "PASSWORD")
+	@Column(name = "password")
 	private String password;
 
 
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "idTeacher", referencedColumnName = "idTeacher")
+	@JoinColumn(name = "id_teacher", referencedColumnName = "id_teacher")
 	private Teacher teacher;
 
 	public User(String username, String password) {
