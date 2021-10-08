@@ -13,7 +13,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @NoArgsConstructor
 @Data
 @Entity
-@Table(name = "user", uniqueConstraints = @UniqueConstraint(columnNames = "username"))
+@Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = "username"))
 public class User implements java.io.Serializable {
 
 	@Id
