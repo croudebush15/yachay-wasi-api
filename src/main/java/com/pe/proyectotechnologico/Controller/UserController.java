@@ -4,14 +4,11 @@ package com.pe.proyectotechnologico.Controller;
 
 import com.pe.proyectotechnologico.Model.User;
 import com.pe.proyectotechnologico.Service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.security.Principal;
 import java.util.Base64;
 
 @RestController
@@ -23,16 +20,37 @@ public class UserController {
         this.service = service;
     }
 
-    @RequestMapping("/login")
-    public boolean login(@RequestBody User user) {
-        return service.userExists(user);
+    @PostMapping("/login")
+    public ResponseEntity login(@RequestBody User user) {
+        User loggedUser = service.userExists(user);
+        if(loggedUser == null){
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity(loggedUser.getTeacher(), HttpStatus.OK);
     }
 
-    @RequestMapping("/user")
-    public Principal user(HttpServletRequest request) {
-        String authToken = request.getHeader("Authorization")
-                .substring("Basic".length()).trim();
-        return () ->  new String(Base64.getDecoder()
-                .decode(authToken)).split(":")[0];
+    @GetMapping("/user")
+    public ResponseEntity user(HttpServletRequest request) {
+        User user = getUserFromRequest(request);
+        if(user == null) return new ResponseEntity(HttpStatus.NO_CONTENT);
+
+        return new ResponseEntity(user, HttpStatus.OK);
+    }
+
+    @GetMapping("/classes")
+    public ResponseEntity getClasses(HttpServletRequest request){
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    public User getUserFromRequest(HttpServletRequest request){
+        String authToken = request.getHeader("Authorization");
+        String userString =  new String(Base64.getDecoder()
+                .decode(authToken));
+
+        User user = new User();
+        user.setUsername(userString.split(":")[0]);
+        user.setPassword(userString.split(":")[1]);
+
+        return service.userExists(user);
     }
 }
