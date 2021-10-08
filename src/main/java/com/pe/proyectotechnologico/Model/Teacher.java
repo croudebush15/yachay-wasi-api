@@ -20,7 +20,7 @@ public class Teacher implements java.io.Serializable {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "idTeacher", unique = true, nullable = false)
+    @Column(name = "id_teacher", unique = true, nullable = false)
     private Integer idTeacher;
     private String firstName;
     private String lastName;
