@@ -22,6 +22,8 @@ public class UserService implements CrudService<User,Integer> {
 
     @Override
     public void update(User user) {
+        User oldUser = findById(user.getId());
+        user.setPassword(oldUser.getPassword());
         repository.save(user);
     }
 
@@ -38,7 +40,12 @@ public class UserService implements CrudService<User,Integer> {
 
     @Override
     public List<User> findAll() {
-        return repository.findAll();
+        List<User> users = repository.findAll();
+        users.forEach(user -> {
+            user.setPassword("");
+        });
+
+        return users;
     }
 
     public User userExists(User userLogin){
@@ -49,5 +56,10 @@ public class UserService implements CrudService<User,Integer> {
             else return null;
         }
         else return null;
+    }
+
+    public Boolean usernameExists(User user){
+        if (repository.findByUsername(user.getUsername()) != null) return true;
+        else return false;
     }
 }
