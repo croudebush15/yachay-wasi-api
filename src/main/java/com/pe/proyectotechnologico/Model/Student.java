@@ -12,16 +12,16 @@ import static javax.persistence.GenerationType.IDENTITY;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "Student", uniqueConstraints = @UniqueConstraint(columnNames = "DNI"))
+@Table(name = "Student", uniqueConstraints = @UniqueConstraint(columnNames = "document_number"))
 public class Student implements java.io.Serializable {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "idStudent", unique = true, nullable = false)
     private Integer id;
-    private String name;
+    private String firstName;
     private String lastName;
-    private String DNI;
+    private String document_number;
     private Date birthDate;
     private String cellphone;
     private String email;

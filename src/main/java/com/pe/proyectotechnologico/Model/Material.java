@@ -1,10 +1,14 @@
 package com.pe.proyectotechnologico.Model;
 
 
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
+import java.util.List;
+
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -17,11 +21,17 @@ public class Material {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "idMaterial", unique = true, nullable = false)
-    private String id;
+    private Integer id;
     private String route;
     private String description;
-    private Date uploadDate;
+    private LocalDate uploadDate;
 
-    //Relacion con Idcurso
+    @ManyToOne
+    @JoinColumn(name = "id_course")
+    private Course course;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "material", cascade = CascadeType.ALL)
+    private List<Lesson> lessonList;
 
 }

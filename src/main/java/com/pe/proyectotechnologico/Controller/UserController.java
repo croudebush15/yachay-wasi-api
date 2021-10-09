@@ -1,12 +1,9 @@
 package com.pe.proyectotechnologico.Controller;
 
 
-
-import com.pe.proyectotechnologico.Model.Teacher;
 import com.pe.proyectotechnologico.Model.User;
 import com.pe.proyectotechnologico.Service.TeacherService;
 import com.pe.proyectotechnologico.Service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -76,6 +73,7 @@ public class UserController {
     @DeleteMapping("/user")
     public ResponseEntity removeUser(HttpServletRequest request,
                                      @RequestBody User user) {
+        //TODO: Desactivar user en vez de eliminar
         if (!isUserAdmin(request)) return new ResponseEntity(HttpStatus.FORBIDDEN);
         if(service.findById(user.getId()) == null) return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
         service.delete(user.getId());
@@ -84,6 +82,7 @@ public class UserController {
 
     @GetMapping("/classes")
     public ResponseEntity getClasses(HttpServletRequest request){
+        //TODO: Listar clases
         return new ResponseEntity(HttpStatus.OK);
     }
 

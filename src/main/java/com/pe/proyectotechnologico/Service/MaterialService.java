@@ -2,9 +2,11 @@ package com.pe.proyectotechnologico.Service;
 
 import com.pe.proyectotechnologico.Model.Material;
 import com.pe.proyectotechnologico.Repository.MaterialRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class MaterialService implements CrudService<Material,Integer> {
 
     private final MaterialRepository materialRepository;

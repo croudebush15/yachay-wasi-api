@@ -6,6 +6,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -37,6 +38,10 @@ public class Teacher implements java.io.Serializable {
     @OneToOne(mappedBy = "teacher", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private User user;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL)
+    private List<Classroom> classroomList;
 
     @Override
     public String toString() {
