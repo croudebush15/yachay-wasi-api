@@ -21,7 +21,7 @@ public class ProyectoTechnologicoApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        User user_admin = new User("admin","123");
+        /*User user_admin = new User("admin","123");
         User user1 = new User("aduran","123");
         User user2 = new User("croudebush","123");
         User user3 = new User("asoto","123");
@@ -73,6 +73,6 @@ public class ProyectoTechnologicoApplication implements CommandLineRunner {
         teacher5.setUser(user5);
         teacher5.setRole("USER");
         user5.setTeacher(teacher5);
-        service.create(user5);
+        service.create(user5);*/
     }
 }

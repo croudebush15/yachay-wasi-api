@@ -16,11 +16,9 @@ import java.util.List;
 @CrossOrigin
 public class UserController {
 
-    final TeacherService teacherService;
     final UserService service;
-    public UserController(UserService service, TeacherService teacherService) {
+    public UserController(UserService service) {
         this.service = service;
-        this.teacherService = teacherService;
     }
 
     @PostMapping("/login")
@@ -55,7 +53,7 @@ public class UserController {
                                @RequestBody User user) {
         if (!isUserAdmin(request)) return new ResponseEntity(HttpStatus.FORBIDDEN);
         //Username tiene que ser unico
-        if (service.usernameExists(user)) return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+        if (service.usernameExists(user)) return new ResponseEntity(HttpStatus.BAD_REQUEST);
         service.create(user);
         if(service.findById(user.getId()) == null) return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
         else return new ResponseEntity(HttpStatus.OK);
