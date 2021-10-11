@@ -34,11 +34,6 @@ public class ClassroomController {
         return new ResponseEntity(classrooms, HttpStatus.OK);
     }
 
-    @GetMapping
-    public ResponseEntity<List<Classroom>> getClassrooms(){
-        return new ResponseEntity<>(classroomService.findAll(), HttpStatus.OK);
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<Classroom> getClassroom(@PathVariable Integer id){
         Classroom currentClassroom = classroomService.findById(id);
