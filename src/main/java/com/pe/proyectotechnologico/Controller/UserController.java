@@ -32,7 +32,7 @@ public class UserController {
 
     @GetMapping("/users")
     public ResponseEntity getAll(HttpServletRequest request){
-        if (!isUserAdmin(request)) return new ResponseEntity(HttpStatus.FORBIDDEN);
+        if (!service.isUserAdmin(request)) return new ResponseEntity(HttpStatus.FORBIDDEN);
 
         List<User> users = service.findAll();
         if(users == null) return new ResponseEntity(HttpStatus.NO_CONTENT);
@@ -42,7 +42,7 @@ public class UserController {
 
     @GetMapping("/user")
     public ResponseEntity getUser(HttpServletRequest request) {
-        User user = getUserFromRequest(request);
+        User user = service.getUserFromRequest(request);
         if(user == null) return new ResponseEntity(HttpStatus.NO_CONTENT);
 
         return new ResponseEntity(user, HttpStatus.OK);
@@ -51,7 +51,7 @@ public class UserController {
     @PostMapping("/user")
     public ResponseEntity createUser(HttpServletRequest request,
                                @RequestBody User user) {
-        if (!isUserAdmin(request)) return new ResponseEntity(HttpStatus.FORBIDDEN);
+        if (!service.isUserAdmin(request)) return new ResponseEntity(HttpStatus.FORBIDDEN);
         //Username tiene que ser unico
         if (service.usernameExists(user)) return new ResponseEntity(HttpStatus.BAD_REQUEST);
         service.create(user);
@@ -62,7 +62,7 @@ public class UserController {
     @PutMapping("/user")
     public ResponseEntity updateUser(HttpServletRequest request,
                                @RequestBody User user) {
-        if (!isUserAdmin(request)) return new ResponseEntity(HttpStatus.FORBIDDEN);
+        if (!service.isUserAdmin(request)) return new ResponseEntity(HttpStatus.FORBIDDEN);
         service.update(user);
         if(service.findById(user.getId()) == null) return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
         else return new ResponseEntity(HttpStatus.OK);
@@ -72,7 +72,7 @@ public class UserController {
     public ResponseEntity removeUser(HttpServletRequest request,
                                      @RequestBody User user) {
         //TODO: Desactivar user en vez de eliminar
-        if (!isUserAdmin(request)) return new ResponseEntity(HttpStatus.FORBIDDEN);
+        if (!service.isUserAdmin(request)) return new ResponseEntity(HttpStatus.FORBIDDEN);
         if(service.findById(user.getId()) == null) return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
         service.delete(user.getId());
         return new ResponseEntity(HttpStatus.OK);
@@ -84,18 +84,5 @@ public class UserController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    public User getUserFromRequest(HttpServletRequest request){
-        String authToken = request.getHeader("Authorization");
-        if (authToken == null) return null;
-        String userString =  new String(Base64.getDecoder()
-                .decode(authToken));
-        User user = new User(userString.split(":")[0],userString.split(":")[1]);
-        return service.userExists(user);
-    }
 
-    public Boolean isUserAdmin(HttpServletRequest request){
-        User user = getUserFromRequest(request);
-        if (user != null && user.getTeacher().getRole().equals("ADMIN")) return true;
-        else return false;
-    }
 }

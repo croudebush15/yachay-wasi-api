@@ -1,6 +1,7 @@
 package com.pe.proyectotechnologico.Service;
 
 import com.pe.proyectotechnologico.Model.Classroom;
+import com.pe.proyectotechnologico.Model.Teacher;
 import com.pe.proyectotechnologico.Repository.ClassroomRepository;
 import org.springframework.stereotype.Service;
 
@@ -38,5 +39,9 @@ public class ClassroomService implements CrudService<Classroom, Integer> {
     @Override
     public List<Classroom> findAll() {
         return classroomRepository.findAll();
+    }
+
+    public List<Classroom> findAllByTeacher(Teacher teacher){
+        return classroomRepository.findByTeacher(teacher);
     }
 }

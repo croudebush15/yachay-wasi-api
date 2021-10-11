@@ -4,6 +4,8 @@ import com.pe.proyectotechnologico.Model.User;
 import com.pe.proyectotechnologico.Repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.Base64;
 import java.util.List;
 import java.util.Objects;
 
@@ -60,6 +62,21 @@ public class UserService implements CrudService<User,Integer> {
 
     public Boolean usernameExists(User user){
         if (repository.findByUsername(user.getUsername()) != null) return true;
+        else return false;
+    }
+
+    public User getUserFromRequest(HttpServletRequest request){
+        String authToken = request.getHeader("Authorization");
+        if (authToken == null) return null;
+        String userString =  new String(Base64.getDecoder()
+                .decode(authToken));
+        User user = new User(userString.split(":")[0],userString.split(":")[1]);
+        return userExists(user);
+    }
+
+    public Boolean isUserAdmin(HttpServletRequest request){
+        User user = getUserFromRequest(request);
+        if (user != null && user.getTeacher().getRole().equals("ADMIN")) return true;
         else return false;
     }
 }

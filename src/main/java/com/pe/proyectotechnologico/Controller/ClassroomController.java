@@ -1,22 +1,37 @@
 package com.pe.proyectotechnologico.Controller;
 
 import com.pe.proyectotechnologico.Model.Classroom;
-import com.pe.proyectotechnologico.Model.Course;
+import com.pe.proyectotechnologico.Model.User;
 import com.pe.proyectotechnologico.Service.ClassroomService;
+import com.pe.proyectotechnologico.Service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
 @RequestMapping("/classroom")
 public class ClassroomController {
 
+    final UserService userService;
     private final ClassroomService classroomService;
 
-    public ClassroomController(ClassroomService classroomService) {
+    public ClassroomController(ClassroomService classroomService, UserService userService) {
         this.classroomService = classroomService;
+        this.userService = userService;
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Classroom>> getClassroomsForTeacher(HttpServletRequest request){
+        User user = userService.getUserFromRequest(request);
+        if(user == null) return new ResponseEntity(HttpStatus.BAD_REQUEST);
+
+        List<Classroom> classrooms = classroomService.findAllByTeacher(user.getTeacher());
+        if (classrooms == null) return new ResponseEntity(HttpStatus.NOT_FOUND);
+
+        return new ResponseEntity(classrooms, HttpStatus.OK);
     }
 
     @GetMapping
