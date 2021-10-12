@@ -2,14 +2,12 @@ package com.pe.proyectotechnologico.Controller;
 
 
 import com.pe.proyectotechnologico.Model.User;
-import com.pe.proyectotechnologico.Service.TeacherService;
 import com.pe.proyectotechnologico.Service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Base64;
 import java.util.List;
 
 @RestController
