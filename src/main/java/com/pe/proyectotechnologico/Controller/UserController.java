@@ -63,26 +63,18 @@ public class UserController {
     public ResponseEntity updateUser(HttpServletRequest request,
                                @RequestBody User user) {
         if (!service.isUserAdmin(request)) return new ResponseEntity(HttpStatus.FORBIDDEN);
-        service.update(user);
         if(service.findById(user.getId()) == null) return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
-        else return new ResponseEntity(HttpStatus.OK);
+        service.update(user);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
-    @DeleteMapping("/user")
+    @DeleteMapping("/user/{id}")
     public ResponseEntity removeUser(HttpServletRequest request,
-                                     @RequestBody User user) {
+                                     @PathVariable Integer id) {
         //TODO: Desactivar user en vez de eliminar
         if (!service.isUserAdmin(request)) return new ResponseEntity(HttpStatus.FORBIDDEN);
-        if(service.findById(user.getId()) == null) return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
-        service.delete(user.getId());
+        if(service.findById(id) == null) return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+        service.delete(id);
         return new ResponseEntity(HttpStatus.OK);
     }
-
-    @GetMapping("/classes")
-    public ResponseEntity getClasses(HttpServletRequest request){
-        //TODO: Listar clases
-        return new ResponseEntity(HttpStatus.OK);
-    }
-
-
 }
