@@ -85,12 +85,12 @@ public class UserController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @GetMapping("/user/{id}")
+    @PostMapping("/user/restore")
     public ResponseEntity restoreUser(HttpServletRequest request,
-                                     @PathVariable Integer id) {
+                                      @RequestBody User user) {
         if (!service.isUserAdmin(request)) return new ResponseEntity(HttpStatus.FORBIDDEN);
-        if(service.findById(id) == null) return new ResponseEntity(HttpStatus.NO_CONTENT);
-        service.restoreUser(id);
+        if(service.findById(user.getId()) == null) return new ResponseEntity(HttpStatus.NO_CONTENT);
+        service.restoreUser(user);
         return new ResponseEntity(HttpStatus.OK);
     }
 }

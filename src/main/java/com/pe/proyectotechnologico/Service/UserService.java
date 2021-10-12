@@ -32,13 +32,16 @@ public class UserService implements CrudService<User,Integer> {
     @Override
     public void delete(Integer id) {
         User user = repository.findById(id).orElse(null);
-        if (user != null) user.getTeacher().setStatus(false);
+        if (user != null){
+            user.getTeacher().setStatus(false);
+            user.setUsername("");
+            user.setPassword("");
+        }
         repository.save(user);
     }
 
-    public void restoreUser(Integer id){
-        User user = repository.findById(id).orElse(null);
-        if (user != null) user.getTeacher().setStatus(true);
+    public void restoreUser(User user){
+        if (repository.findById(user.getId()).isPresent()) user.getTeacher().setStatus(true);
         repository.save(user);
     }
 
