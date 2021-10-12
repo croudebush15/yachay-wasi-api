@@ -31,7 +31,15 @@ public class UserService implements CrudService<User,Integer> {
 
     @Override
     public void delete(Integer id) {
-        repository.deleteById(id);
+        User user = repository.findById(id).orElse(null);
+        if (user != null) user.getTeacher().setStatus(false);
+        repository.save(user);
+    }
+
+    public void restoreUser(Integer id){
+        User user = repository.findById(id).orElse(null);
+        if (user != null) user.getTeacher().setStatus(true);
+        repository.save(user);
     }
 
     @Override
@@ -78,5 +86,9 @@ public class UserService implements CrudService<User,Integer> {
         User user = getUserFromRequest(request);
         if (user != null && user.getTeacher().getRole().equals("ADMIN")) return true;
         else return false;
+    }
+
+    public List<User> findByStatus(Boolean isActive){
+        return repository.findAllByTeacher_Status(isActive);
     }
 }

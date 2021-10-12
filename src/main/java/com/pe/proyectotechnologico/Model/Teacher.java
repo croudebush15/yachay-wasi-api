@@ -33,9 +33,9 @@ public class Teacher implements java.io.Serializable {
     private String phone;
     private String email;
     private String address;
-    private Boolean status;
+    private Boolean status = true;
     @Column(name = "role")
-    private String role;
+    private String role = "USER";
 
     @JsonIgnore
     @OneToOne(mappedBy = "teacher", cascade = CascadeType.ALL)

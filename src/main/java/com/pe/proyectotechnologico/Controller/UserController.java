@@ -29,10 +29,20 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public ResponseEntity getAll(HttpServletRequest request){
+    public ResponseEntity getAllActiveUsers(HttpServletRequest request){
         if (!service.isUserAdmin(request)) return new ResponseEntity(HttpStatus.FORBIDDEN);
 
-        List<User> users = service.findAll();
+        List<User> users = service.findByStatus(true);
+        if(users == null) return new ResponseEntity(HttpStatus.NO_CONTENT);
+
+        return new ResponseEntity(users, HttpStatus.OK);
+    }
+
+    @GetMapping("/users/inactive")
+    public ResponseEntity getAllInactiveUsers(HttpServletRequest request){
+        if (!service.isUserAdmin(request)) return new ResponseEntity(HttpStatus.FORBIDDEN);
+
+        List<User> users = service.findByStatus(false);
         if(users == null) return new ResponseEntity(HttpStatus.NO_CONTENT);
 
         return new ResponseEntity(users, HttpStatus.OK);
@@ -53,7 +63,7 @@ public class UserController {
         //Username tiene que ser unico
         if (service.usernameExists(user)) return new ResponseEntity(HttpStatus.BAD_REQUEST);
         service.create(user);
-        if(service.findById(user.getId()) == null) return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+        if(service.findById(user.getId()) == null) return new ResponseEntity(HttpStatus.NO_CONTENT);
         else return new ResponseEntity(HttpStatus.OK);
     }
 
@@ -61,7 +71,7 @@ public class UserController {
     public ResponseEntity updateUser(HttpServletRequest request,
                                @RequestBody User user) {
         if (!service.isUserAdmin(request)) return new ResponseEntity(HttpStatus.FORBIDDEN);
-        if(service.findById(user.getId()) == null) return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+        if(service.findById(user.getId()) == null) return new ResponseEntity(HttpStatus.NO_CONTENT);
         service.update(user);
         return new ResponseEntity(HttpStatus.OK);
     }
@@ -69,10 +79,18 @@ public class UserController {
     @DeleteMapping("/user/{id}")
     public ResponseEntity removeUser(HttpServletRequest request,
                                      @PathVariable Integer id) {
-        //TODO: Desactivar user en vez de eliminar
         if (!service.isUserAdmin(request)) return new ResponseEntity(HttpStatus.FORBIDDEN);
-        if(service.findById(id) == null) return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+        if(service.findById(id) == null) return new ResponseEntity(HttpStatus.NO_CONTENT);
         service.delete(id);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @GetMapping("/user/{id}")
+    public ResponseEntity restoreUser(HttpServletRequest request,
+                                     @PathVariable Integer id) {
+        if (!service.isUserAdmin(request)) return new ResponseEntity(HttpStatus.FORBIDDEN);
+        if(service.findById(id) == null) return new ResponseEntity(HttpStatus.NO_CONTENT);
+        service.restoreUser(id);
         return new ResponseEntity(HttpStatus.OK);
     }
 }

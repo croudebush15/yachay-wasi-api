@@ -8,6 +8,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.util.Date;
+
 @SpringBootApplication
 public class ProyectoTechnologicoApplication implements CommandLineRunner {
 
@@ -32,6 +34,7 @@ public class ProyectoTechnologicoApplication implements CommandLineRunner {
         admin.setFirstName("Admin");
         admin.setUser(user_admin);
         admin.setRole("ADMIN");
+        admin.setStatus(true);
         user_admin.setTeacher(admin);
         service.create(user_admin);
 
@@ -40,6 +43,8 @@ public class ProyectoTechnologicoApplication implements CommandLineRunner {
         teacher1.setLastName("Durán");
         teacher1.setUser(user1);
         teacher1.setRole("USER");
+        teacher1.setStatus(true);
+        teacher1.setBirthDate(new Date());
         user1.setTeacher(teacher1);
         service.create(user1);
 
@@ -48,6 +53,7 @@ public class ProyectoTechnologicoApplication implements CommandLineRunner {
         teacher2.setLastName("Roudebush");
         teacher2.setUser(user2);
         teacher2.setRole("USER");
+        teacher2.setStatus(false);
         user2.setTeacher(teacher2);
         service.create(user2);
 
