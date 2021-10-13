@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface ClassroomRepository extends JpaRepository<Classroom, Integer> {
-    List<Classroom> findByTeacher(Teacher teacher);
+    List<Classroom> findByTeacherOrderByDayOfWeekAscHoraIAsc(Teacher teacher);
 }

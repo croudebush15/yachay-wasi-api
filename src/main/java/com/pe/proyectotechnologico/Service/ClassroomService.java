@@ -42,6 +42,6 @@ public class ClassroomService implements CrudService<Classroom, Integer> {
     }
 
     public List<Classroom> findAllByTeacher(Teacher teacher){
-        return classroomRepository.findByTeacher(teacher);
+        return classroomRepository.findByTeacherOrderByDayOfWeekAscHoraIAsc(teacher);
     }
 }
