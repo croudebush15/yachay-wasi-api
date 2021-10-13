@@ -34,7 +34,6 @@ public class UserService implements CrudService<User,Integer> {
         User user = repository.findById(id).orElse(null);
         if (user != null){
             user.getTeacher().setStatus(false);
-            user.setUsername("");
             user.setPassword("");
         }
         repository.save(user);
@@ -63,7 +62,7 @@ public class UserService implements CrudService<User,Integer> {
 
     public User userExists(User userLogin){
         User user = repository.findByUsername(userLogin.getUsername());
-        if (user != null){
+        if (user != null || !user.getTeacher().getStatus()){
             if (Objects.equals(user.getPassword(), userLogin.getPassword()))
                 return user;
             else return null;
