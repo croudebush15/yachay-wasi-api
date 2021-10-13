@@ -92,6 +92,6 @@ public class UserService implements CrudService<User,Integer> {
     }
 
     public List<User> findByStatus(Boolean isActive){
-        return repository.findAllByTeacher_RoleAndTeacherStatusOrderByIdDesc("USER", isActive);
+        return repository.findAllByTeacher_RoleAndTeacherStatusOrderByIdAsc("USER", isActive);
     }
 }
