@@ -53,7 +53,7 @@ public class UserService implements CrudService<User,Integer> {
 
     @Override
     public List<User> findAll() {
-        List<User> users = repository.findAllByTeacher_Role("USER");
+        List<User> users = repository.findAll();
         users.forEach(user -> {
             user.setPassword("");
         });
@@ -92,6 +92,6 @@ public class UserService implements CrudService<User,Integer> {
     }
 
     public List<User> findByStatus(Boolean isActive){
-        return repository.findAllByTeacher_Status(isActive);
+        return repository.findAllByTeacher_RoleAndTeacherStatus("USER", isActive);
     }
 }
