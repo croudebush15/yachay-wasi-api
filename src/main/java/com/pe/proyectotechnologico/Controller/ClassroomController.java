@@ -1,9 +1,12 @@
 package com.pe.proyectotechnologico.Controller;
 
 import com.pe.proyectotechnologico.Model.Classroom;
+import com.pe.proyectotechnologico.Model.Teacher;
 import com.pe.proyectotechnologico.Model.User;
 import com.pe.proyectotechnologico.Service.ClassroomService;
+import com.pe.proyectotechnologico.Service.TeacherService;
 import com.pe.proyectotechnologico.Service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,12 +19,14 @@ import java.util.List;
 @RequestMapping("/classroom")
 public class ClassroomController {
 
-    final UserService userService;
+    private final UserService userService;
     private final ClassroomService classroomService;
+    private final TeacherService teacherService;
 
-    public ClassroomController(ClassroomService classroomService, UserService userService) {
+    public ClassroomController(ClassroomService classroomService, UserService userService, TeacherService teacherService) {
         this.classroomService = classroomService;
         this.userService = userService;
+        this.teacherService = teacherService;
     }
 
     @GetMapping
@@ -41,6 +46,14 @@ public class ClassroomController {
         List<Classroom> classrooms = classroomService.findAll();
         if (classrooms == null) return new ResponseEntity(HttpStatus.NOT_FOUND);
         return new ResponseEntity(classrooms, HttpStatus.OK);
+    }
+
+    @GetMapping("/teacher")
+    public ResponseEntity<Classroom> getAllTeachers(HttpServletRequest request){
+        if (!userService.isUserAdmin(request)) return new ResponseEntity(HttpStatus.FORBIDDEN);
+        List<Teacher> teachers = teacherService.findAll();
+        if (teachers == null) return new ResponseEntity(HttpStatus.NOT_FOUND);
+        return new ResponseEntity(teachers, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
