@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/classroom")
 public class ClassroomController {
 
@@ -43,26 +44,29 @@ public class ClassroomController {
         return new ResponseEntity<>(currentClassroom, HttpStatus.OK);
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<Classroom> postClassroom(@RequestBody Classroom classroom){
+    @PostMapping
+    public ResponseEntity<Classroom> postClassroom(HttpServletRequest request,
+                                                   @RequestBody Classroom classroom){
+        if (!userService.isUserAdmin(request)) return new ResponseEntity(HttpStatus.FORBIDDEN);
         classroomService.create(classroom);
         return new ResponseEntity<>(classroom,HttpStatus.CREATED);
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<Classroom> putClassroom(@PathVariable Integer id,
+    @PutMapping
+    public ResponseEntity<Classroom> putClassroom(HttpServletRequest request,
                                             @RequestBody Classroom classroom){
-
-        if( null == classroomService.findById(id)){
+        if (!userService.isUserAdmin(request)) return new ResponseEntity(HttpStatus.FORBIDDEN);
+        if( null == classroomService.findById(classroom.getId())){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        classroom.setId(id);
         classroomService.update(classroom);
         return new ResponseEntity<>(classroom,HttpStatus.OK);
     }
 
-    @DeleteMapping("delete/{id}")
-    public ResponseEntity<Classroom> deleteClassroom(@PathVariable Integer id){
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Classroom> deleteClassroom(HttpServletRequest request,
+                                                     @PathVariable Integer id){
+        if (!userService.isUserAdmin(request)) return new ResponseEntity(HttpStatus.FORBIDDEN);
         if( null == classroomService.findById(id)){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
