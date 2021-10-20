@@ -35,6 +35,14 @@ public class ClassroomController {
         return new ResponseEntity(classrooms, HttpStatus.OK);
     }
 
+    @GetMapping("/all")
+    public ResponseEntity<Classroom> getAllClassroom(HttpServletRequest request){
+        if (!userService.isUserAdmin(request)) return new ResponseEntity(HttpStatus.FORBIDDEN);
+        List<Classroom> classrooms = classroomService.findAll();
+        if (classrooms == null) return new ResponseEntity(HttpStatus.NOT_FOUND);
+        return new ResponseEntity(classrooms, HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Classroom> getClassroom(@PathVariable Integer id){
         Classroom currentClassroom = classroomService.findById(id);
