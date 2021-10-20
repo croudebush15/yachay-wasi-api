@@ -38,6 +38,6 @@ public class TeacherService implements CrudService<Teacher,Integer> {
 
     @Override
     public List<Teacher> findAll() {
-        return teacherRepository.findAllByStatus(true);
+        return teacherRepository.findAllByStatusAndRole(true, "USER");
     }
 }

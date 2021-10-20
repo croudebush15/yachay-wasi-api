@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface TeacherRepository extends JpaRepository<Teacher,Integer> {
-    List<Teacher> findAllByStatus(Boolean status);
+    List<Teacher> findAllByStatusAndRole(Boolean status, String role);
 }
