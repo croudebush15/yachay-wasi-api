@@ -40,7 +40,7 @@ public class CourseController {
         return new ResponseEntity<>(currentCourse, HttpStatus.OK);
     }
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<Course> postCourse(HttpServletRequest request,
                                              @RequestBody Course course){
         if (!userService.isUserAdmin(request)) return new ResponseEntity(HttpStatus.FORBIDDEN);
@@ -48,7 +48,7 @@ public class CourseController {
         return new ResponseEntity<>(course,HttpStatus.CREATED);
     }
 
-    @PutMapping("/update")
+    @PutMapping
     public ResponseEntity<Course> putCourse(HttpServletRequest request,
                                               @RequestBody Course course){
         if (!userService.isUserAdmin(request)) return new ResponseEntity(HttpStatus.FORBIDDEN);
@@ -60,7 +60,7 @@ public class CourseController {
         return new ResponseEntity<>(course,HttpStatus.OK);
     }
 
-    @DeleteMapping("delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Course> deleteCourse(HttpServletRequest request,
                                                @PathVariable Integer id){
         if (!userService.isUserAdmin(request)) return new ResponseEntity(HttpStatus.FORBIDDEN);
