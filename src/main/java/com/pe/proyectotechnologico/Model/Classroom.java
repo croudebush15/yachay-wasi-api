@@ -31,8 +31,7 @@ public class Classroom {
     @JsonIgnore
     @OneToMany(mappedBy = "classroom", cascade = CascadeType.ALL)
     private List<Lesson> lessonList;
-
-    @JsonIgnore
+    
     @ManyToOne
     @JoinColumn(name = "id_teacher")
     private Teacher teacher;
