@@ -40,7 +40,7 @@ public class Classroom {
     private String dayOfWeek;
     private String HoraI;
     private String HoraF;
-    private Boolean status;
+    private Boolean status = true;
 
     @JsonIgnore
     @OneToMany(mappedBy = "classroom", cascade = CascadeType.ALL)

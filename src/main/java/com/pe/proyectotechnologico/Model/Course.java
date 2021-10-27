@@ -23,7 +23,7 @@ public class Course {
         private Integer id;
         private String name;
         private String description;
-        private Boolean status;
+        private Boolean status = true;
 
         @JsonIgnore
         @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
