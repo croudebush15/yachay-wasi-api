@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
 
@@ -26,6 +27,7 @@ public class Classroom {
     private Integer id;
     private String name;
     @Column(name = "NRC")
+    @ColumnDefault("100")
     @Generated(GenerationTime.INSERT)
     private Integer NRC;
     private Integer numberOfStudents;
