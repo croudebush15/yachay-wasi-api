@@ -23,6 +23,7 @@ public class Course {
         private Integer id;
         private String name;
         private String description;
+        @JsonIgnore
         private Boolean status = true;
 
         @JsonIgnore
