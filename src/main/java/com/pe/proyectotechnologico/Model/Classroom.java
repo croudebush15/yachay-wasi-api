@@ -36,10 +36,6 @@ public class Classroom {
     @Column(name = "idClassroom", unique = true, nullable = false)
     private Integer id;
     private String name;
-    @Column(name = "NRC")
-    @ColumnDefault("100")
-    @Generated(GenerationTime.INSERT)
-    private Integer NRC;
     private Integer numberOfStudents;
     private String dayOfWeek;
     private String HoraI;
