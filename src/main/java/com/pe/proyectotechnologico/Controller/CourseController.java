@@ -88,4 +88,13 @@ public class CourseController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PostMapping("/restore")
+    public ResponseEntity restoreCourse(HttpServletRequest request,
+                                           @RequestBody Course course) {
+        if (!userService.isUserAdmin(request)) return new ResponseEntity(HttpStatus.FORBIDDEN);
+        if(courseService.findById(course.getId()) == null) return new ResponseEntity(HttpStatus.NO_CONTENT);
+        courseService.restoreCourse(course);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
 }

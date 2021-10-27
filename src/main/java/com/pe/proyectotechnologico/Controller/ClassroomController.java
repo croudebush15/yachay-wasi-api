@@ -6,7 +6,6 @@ import com.pe.proyectotechnologico.Model.User;
 import com.pe.proyectotechnologico.Service.ClassroomService;
 import com.pe.proyectotechnologico.Service.TeacherService;
 import com.pe.proyectotechnologico.Service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -41,7 +40,7 @@ public class ClassroomController {
     }
 
     @GetMapping("/active")
-    public ResponseEntity<Classroom> getAllClassroom(HttpServletRequest request){
+    public ResponseEntity<Classroom> getAllActiveClassrooms(HttpServletRequest request){
         if (!userService.isUserAdmin(request)) return new ResponseEntity(HttpStatus.FORBIDDEN);
         List<Classroom> classrooms = classroomService.findAllByStatus(true);
         if (classrooms == null) return new ResponseEntity(HttpStatus.NOT_FOUND);
@@ -103,5 +102,12 @@ public class ClassroomController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-
+    @PostMapping("/restore")
+    public ResponseEntity restoreClassroom(HttpServletRequest request,
+                                      @RequestBody Classroom classroom) {
+        if (!userService.isUserAdmin(request)) return new ResponseEntity(HttpStatus.FORBIDDEN);
+        if(classroomService.findById(classroom.getId()) == null) return new ResponseEntity(HttpStatus.NO_CONTENT);
+        classroomService.restoreClassroom(classroom);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 }

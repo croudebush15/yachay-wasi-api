@@ -27,8 +27,17 @@ public class ClassroomService implements CrudService<Classroom, Integer> {
     }
 
     @Override
-    public void delete(Integer integer) {
-        classroomRepository.deleteById(integer);
+    public void delete(Integer id) {
+        Classroom classroom = classroomRepository.findById(id).orElse(null);
+        if (classroom != null){
+            classroom.setStatus(false);
+        }
+        classroomRepository.save(classroom);
+    }
+
+    public void restoreClassroom(Classroom classroom){
+        if (classroomRepository.findById(classroom.getId()).isPresent()) classroom.setStatus(true);
+        classroomRepository.save(classroom);
     }
 
     @Override

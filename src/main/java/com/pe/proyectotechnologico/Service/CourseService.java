@@ -28,8 +28,18 @@ public class CourseService implements CrudService<Course,Integer> {
 
     @Override
     public void delete(Integer id) {
-        courseRepository.deleteById(id);
+        Course course = courseRepository.findById(id).orElse(null);
+        if (course != null){
+            course.setStatus(false);
+        }
+        courseRepository.save(course);
     }
+
+    public void restoreCourse(Course course){
+        if (courseRepository.findById(course.getId()).isPresent()) course.setStatus(true);
+        courseRepository.save(course);
+    }
+
 
     @Override
     public Course findById(Integer id) {
