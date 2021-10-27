@@ -17,12 +17,15 @@ import static javax.persistence.GenerationType.IDENTITY;
 @NoArgsConstructor
 @Entity
 @Table(name = "classroom")
+@SequenceGenerator(name="seq", initialValue=100)
 public class Classroom {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "idClassroom", unique = true, nullable = false)
     private Integer id;
     private String name;
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq")
+    private Integer NRC;
     private Integer numberOfStudents;
     private String dayOfWeek;
     private String HoraI;
