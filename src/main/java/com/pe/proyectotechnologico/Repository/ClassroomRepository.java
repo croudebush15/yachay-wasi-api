@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface ClassroomRepository extends JpaRepository<Classroom, Integer> {
     List<Classroom> findByTeacherOrderByDayOfWeekAscNameAsc(Teacher teacher);
+    List<Classroom> findAllByStatusOrderByIdAsc(Boolean status);
 }

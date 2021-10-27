@@ -30,6 +30,22 @@ public class CourseController {
         return new ResponseEntity<>(courseService.findAll(), HttpStatus.OK);
     }
 
+    @GetMapping("/active")
+    public ResponseEntity<Course> getAllClassroom(HttpServletRequest request){
+        if (!userService.isUserAdmin(request)) return new ResponseEntity(HttpStatus.FORBIDDEN);
+        List<Course> courses = courseService.findAllByStatus(true);
+        if (courses == null) return new ResponseEntity(HttpStatus.NO_CONTENT);
+        return new ResponseEntity(courses, HttpStatus.OK);
+    }
+
+    @GetMapping("/inactive")
+    public ResponseEntity getAllInactiveClassrooms(HttpServletRequest request){
+        if (!userService.isUserAdmin(request)) return new ResponseEntity(HttpStatus.FORBIDDEN);
+        List<Course> courses = courseService.findAllByStatus(false);
+        if(courses == null) return new ResponseEntity(HttpStatus.NO_CONTENT);
+        return new ResponseEntity(courses, HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Course> getCourse(HttpServletRequest request,
                                             @PathVariable Integer id){

@@ -40,4 +40,8 @@ public class CourseService implements CrudService<Course,Integer> {
     public List<Course> findAll() {
         return courseRepository.findAll();
     }
+
+    public List<Course> findAllByStatus(Boolean status){
+        return courseRepository.findAllByStatusOrderByIdAsc(status);
+    }
 }

@@ -40,11 +40,19 @@ public class ClassroomController {
         return new ResponseEntity(classrooms, HttpStatus.OK);
     }
 
-    @GetMapping("/all")
+    @GetMapping("/active")
     public ResponseEntity<Classroom> getAllClassroom(HttpServletRequest request){
         if (!userService.isUserAdmin(request)) return new ResponseEntity(HttpStatus.FORBIDDEN);
-        List<Classroom> classrooms = classroomService.findAll();
+        List<Classroom> classrooms = classroomService.findAllByStatus(true);
         if (classrooms == null) return new ResponseEntity(HttpStatus.NOT_FOUND);
+        return new ResponseEntity(classrooms, HttpStatus.OK);
+    }
+
+    @GetMapping("/inactive")
+    public ResponseEntity getAllInactiveClassrooms(HttpServletRequest request){
+        if (!userService.isUserAdmin(request)) return new ResponseEntity(HttpStatus.FORBIDDEN);
+        List<Classroom> classrooms = classroomService.findAllByStatus(false);
+        if(classrooms == null) return new ResponseEntity(HttpStatus.NO_CONTENT);
         return new ResponseEntity(classrooms, HttpStatus.OK);
     }
 
