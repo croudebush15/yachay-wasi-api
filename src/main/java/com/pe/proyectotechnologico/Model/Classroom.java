@@ -54,5 +54,10 @@ public class Classroom {
     @JoinColumn(name = "id_course")
     private Course course;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "classroom_2")
+    private List<Classroom_Student> classroom_students;
+
+
 
 }

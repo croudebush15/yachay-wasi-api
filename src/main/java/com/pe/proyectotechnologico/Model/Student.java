@@ -1,9 +1,11 @@
 package com.pe.proyectotechnologico.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -27,6 +29,11 @@ public class Student implements java.io.Serializable {
     private String email;
     private String address;
     private Boolean status;
+
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
+    private List<Classroom_Student> classroom_students;
 
 
 }
