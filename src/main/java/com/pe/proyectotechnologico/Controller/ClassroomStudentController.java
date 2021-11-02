@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/classroom_student")
 public class ClassroomStudentController {
     private final ClassroomStudentService classroomStudentService;

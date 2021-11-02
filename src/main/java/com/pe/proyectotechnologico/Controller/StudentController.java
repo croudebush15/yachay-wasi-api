@@ -1,6 +1,8 @@
 package com.pe.proyectotechnologico.Controller;
 
+import com.pe.proyectotechnologico.Model.Classroom;
 import com.pe.proyectotechnologico.Model.Student;
+import com.pe.proyectotechnologico.Model.User;
 import com.pe.proyectotechnologico.Service.StudentService;
 import com.pe.proyectotechnologico.Service.UserService;
 import org.springframework.http.HttpStatus;
@@ -44,6 +46,21 @@ public class StudentController {
         if (!userService.isUserAdmin(request)) return new ResponseEntity(HttpStatus.FORBIDDEN);
         List<Student> students = studentService.findAllByStatus(false);
         if (students == null) return new ResponseEntity(HttpStatus.NO_CONTENT);
+        return new ResponseEntity(students, HttpStatus.OK);
+    }
+
+    @PostMapping("/classroom")
+    public ResponseEntity<List<Student>> getStudentsForClassroom(HttpServletRequest request,
+                                                                 @RequestBody Classroom classroom){
+        User user = userService.getUserFromRequest(request);
+        if (!userService.isUserAdmin(user) ){
+            if(user == null || !classroom.getTeacher().getIdTeacher().equals(user.getTeacher().getIdTeacher()))
+                return new ResponseEntity(HttpStatus.FORBIDDEN);
+        }
+
+        List<Student> students = studentService.findAllByClassroom(classroom.getId());
+        if (students == null) return new ResponseEntity(HttpStatus.NOT_FOUND);
+
         return new ResponseEntity(students, HttpStatus.OK);
     }
 

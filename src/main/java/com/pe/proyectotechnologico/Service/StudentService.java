@@ -53,4 +53,9 @@ public class StudentService implements CrudService<Student, Integer> {
     public List<Student> findAllByStatus(Boolean status){
         return studentRepository.findAllByStatusOrderByIdAsc(status);
     }
+
+    public List<Student> findAllByClassroom(Integer idClassroom){
+        return studentRepository.findStudentsByClassroom(idClassroom);
+    }
+
 }

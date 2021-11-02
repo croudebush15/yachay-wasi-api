@@ -90,6 +90,11 @@ public class UserService implements CrudService<User,Integer> {
         else return false;
     }
 
+    public Boolean isUserAdmin(User user){
+        if (user != null && user.getTeacher().getRole().equals("ADMIN")) return true;
+        else return false;
+    }
+
     public List<User> findByStatus(Boolean isActive){
         return repository.findAllByTeacher_RoleAndTeacherStatusOrderByIdAsc("USER", isActive);
     }
