@@ -25,7 +25,7 @@ public class Student implements java.io.Serializable {
     private String lastName;
     private String document_number;
     private Date birthDate;
-    private String cellphone;
+    private String phone;
     private String email;
     private String address;
     private Boolean status;

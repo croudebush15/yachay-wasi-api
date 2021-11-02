@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-
 @Service
 public class StudentService implements CrudService<Student, Integer> {
 
@@ -28,7 +27,16 @@ public class StudentService implements CrudService<Student, Integer> {
 
     @Override
     public void delete(Integer id) {
-        studentRepository.deleteById(id);
+        Student student = studentRepository.findById(id).orElse(null);
+        if (student != null){
+            student.setStatus(false);
+        }
+        studentRepository.save(student);
+    }
+
+    public void restoreStudent(Student student){
+        if (studentRepository.findById(student.getId()).isPresent()) student.setStatus(true);
+        studentRepository.save(student);
     }
 
     @Override
@@ -40,5 +48,9 @@ public class StudentService implements CrudService<Student, Integer> {
     @Override
     public List<Student> findAll() {
         return studentRepository.findAll();
+    }
+
+    public List<Student> findAllByStatus(Boolean status){
+        return studentRepository.findAllByStatusOrderByIdAsc(status);
     }
 }
