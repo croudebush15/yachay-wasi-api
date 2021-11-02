@@ -1,5 +1,6 @@
 package com.pe.proyectotechnologico.Model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
@@ -24,11 +25,13 @@ public class Student implements java.io.Serializable {
     private String firstName;
     private String lastName;
     private String document_number;
+    @JsonFormat
+            (shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date birthDate;
     private String phone;
     private String email;
     private String address;
-    private Boolean status;
+    private Boolean status = true;
 
 
     @JsonIgnore
