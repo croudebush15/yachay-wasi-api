@@ -10,10 +10,10 @@ import java.util.List;
 @Repository
 public interface StudentRepository extends JpaRepository<Student,Integer> {
     List<Student> findAllByStatusOrderByIdAsc(Boolean status);
-    @Query("SELECT *\n" +
-            "FROM student s\n" +
-            "INNER JOIN classroom_student cs ON s.id_student = cs.id_student\n" +
-            "WHERE id_classroom = ?1\n" +
-            "AND status = true")
+    @Query("SELECT s\n" +
+            "FROM Student s\n" +
+            "INNER JOIN Classroom_Student cs ON s.id = cs.student.id\n" +
+            "WHERE cs.classroom_2.id = ?1\n" +
+            "AND s.status = true")
     List<Student> findStudentsByClassroom(Integer idClassroom);
 }
