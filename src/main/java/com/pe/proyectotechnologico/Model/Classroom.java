@@ -38,8 +38,8 @@ public class Classroom {
     private String name;
     private Integer numberOfStudents;
     private String dayOfWeek;
+    private Long durationHours;
     private String HoraI;
-    private String HoraF;
     @JsonIgnore
     private Boolean status = true;
 

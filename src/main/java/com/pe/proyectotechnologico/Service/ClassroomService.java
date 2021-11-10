@@ -6,6 +6,8 @@ import com.pe.proyectotechnologico.Model.Teacher;
 import com.pe.proyectotechnologico.Repository.ClassroomRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -57,5 +59,20 @@ public class ClassroomService implements CrudService<Classroom, Integer> {
 
     public List<Classroom> findAllByTeacher(Teacher teacher){
         return classroomRepository.findByTeacherOrderByDayOfWeekAscNameAsc(teacher);
+    }
+
+    public Boolean teacherHasClassAtTime(Classroom classroom){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("H:mm");
+        LocalTime newClassStartTime = LocalTime.parse(classroom.getHoraI(), formatter);
+        List<Classroom> classroomsForTeacher = findAllByTeacher(classroom.getTeacher());
+        for (Classroom classroom1: classroomsForTeacher){
+            LocalTime classStartTime = LocalTime.parse(classroom1.getHoraI(), formatter) ;
+            if (
+                newClassStartTime.isAfter( classStartTime )
+                    &&
+                newClassStartTime.isBefore( classStartTime.plusHours(classroom1.getDurationHours()) )
+            ) return true;
+        }
+        return false;
     }
 }

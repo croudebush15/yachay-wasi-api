@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RestController
@@ -76,8 +78,9 @@ public class ClassroomController {
     public ResponseEntity<Classroom> postClassroom(HttpServletRequest request,
                                                    @RequestBody Classroom classroom){
         if (!userService.isUserAdmin(request)) return new ResponseEntity(HttpStatus.FORBIDDEN);
+        if (classroomService.teacherHasClassAtTime(classroom)) return new ResponseEntity(HttpStatus.BAD_REQUEST);
         classroomService.create(classroom);
-        return new ResponseEntity<>(classroom,HttpStatus.CREATED);
+        return new ResponseEntity(classroom,HttpStatus.CREATED);
     }
 
     @PutMapping
