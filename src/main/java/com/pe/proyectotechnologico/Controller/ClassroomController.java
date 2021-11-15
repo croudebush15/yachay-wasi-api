@@ -11,8 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RestController
@@ -90,6 +88,7 @@ public class ClassroomController {
         if( null == classroomService.findById(classroom.getId())){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        if (classroomService.teacherHasClassAtTime(classroom)) return new ResponseEntity(HttpStatus.BAD_REQUEST);
         classroomService.update(classroom);
         return new ResponseEntity<>(classroom,HttpStatus.OK);
     }

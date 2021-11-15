@@ -35,7 +35,13 @@ public class Course {
         private List<Material> materialList;
 
 
-
-
-
+        @Override
+        public String toString() {
+                return "Course{" +
+                        "id=" + id +
+                        ", name='" + name + '\'' +
+                        ", description='" + description + '\'' +
+                        ", status=" + status +
+                        '}';
+        }
 }

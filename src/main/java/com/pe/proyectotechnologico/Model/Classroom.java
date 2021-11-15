@@ -55,6 +55,21 @@ public class Classroom {
     @JoinColumn(name = "id_course")
     private Course course;
 
+    @Override
+    public String toString() {
+        return "Classroom{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", numberOfStudents=" + numberOfStudents +
+                ", dayOfWeek='" + dayOfWeek + '\'' +
+                ", durationHours=" + durationHours +
+                ", HoraI='" + HoraI + '\'' +
+                ", status=" + status +
+                ", teacher=" + teacher.toString() +
+                ", course=" + course.toString() +
+                '}';
+    }
+
     @JsonIgnore
     @OneToMany(mappedBy = "classroom_2")
     private List<Classroom_Student> classroom_students;

@@ -66,12 +66,17 @@ public class ClassroomService implements CrudService<Classroom, Integer> {
         LocalTime newClassStartTime = LocalTime.parse(classroom.getHoraI(), formatter);
         List<Classroom> classroomsForTeacher = findAllByTeacher(classroom.getTeacher());
         for (Classroom classroom1: classroomsForTeacher){
-            LocalTime classStartTime = LocalTime.parse(classroom1.getHoraI(), formatter) ;
-            if (
-                newClassStartTime.isAfter( classStartTime )
-                    &&
-                newClassStartTime.isBefore( classStartTime.plusHours(classroom1.getDurationHours()) )
-            ) return true;
+            if (classroom1.getStatus() && classroom1.getDayOfWeek().equals(classroom.getDayOfWeek())){
+                LocalTime classStartTime = LocalTime.parse(classroom1.getHoraI(), formatter) ;
+                //checks if newClassStartTime is equal to or later than classStartTime, then checks if it is before/equals newCLass end time.
+                if (
+                        newClassStartTime.compareTo(classStartTime) > -1
+                            &&
+                        newClassStartTime.compareTo(classStartTime.plusHours(classroom1.getDurationHours())) < 1
+                ) {
+                    return true;
+                }
+            }
         }
         return false;
     }

@@ -52,7 +52,6 @@ public class UserController {
     public ResponseEntity getUser(HttpServletRequest request) {
         User user = service.getUserFromRequest(request);
         if(user == null) return new ResponseEntity(HttpStatus.NO_CONTENT);
-
         return new ResponseEntity(user, HttpStatus.OK);
     }
 
