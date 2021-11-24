@@ -2,6 +2,7 @@ package com.pe.proyectotechnologico.Model;
 
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 
@@ -18,6 +19,8 @@ public class Classroom_Student {
     @Column(name = "id_Classroom_Student", unique = true, nullable = false)
     private Integer id;
 
+    @JsonIgnore
+    private Boolean status = true;
 
     @ManyToOne
     @JoinColumn(name = "id_student")
@@ -26,6 +29,7 @@ public class Classroom_Student {
     @ManyToOne
     @JoinColumn(name = "id_classroom")
     private Classroom classroom_2;
+
 
 
 }
