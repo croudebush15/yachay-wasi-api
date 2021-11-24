@@ -1,63 +1,47 @@
 package com.pe.proyectotechnologico.Controller;
 
-import com.pe.proyectotechnologico.Model.Classroom_Student;
-import com.pe.proyectotechnologico.Model.Student;
 import com.pe.proyectotechnologico.Service.ClassroomStudentService;
+import com.pe.proyectotechnologico.Service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/classroom_student")
+@RequestMapping("/register")
 public class ClassroomStudentController {
     private final ClassroomStudentService classroomStudentService;
+    private final UserService userService;
 
-    public ClassroomStudentController(ClassroomStudentService classroomStudentService) {
+    public ClassroomStudentController(ClassroomStudentService classroomStudentService,
+                                      UserService userService) {
         this.classroomStudentService = classroomStudentService;
+        this.userService = userService;
     }
 
-    @GetMapping
-    public ResponseEntity<List<Classroom_Student>> getAll(){
-        return new ResponseEntity<>(classroomStudentService.findAll(), HttpStatus.OK);
+    @PostMapping
+    public ResponseEntity registerStudentsInClassroom(HttpServletRequest request,
+                                                      @RequestBody StudentRegister studentRegister){
+        if (!userService.isUserAdmin(request)) return new ResponseEntity(HttpStatus.FORBIDDEN);
+        classroomStudentService.registerStudentsInClassroom(studentRegister.getIdStudents(),
+                studentRegister.getIdClassroom());
+        return new ResponseEntity(HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Classroom_Student> getClassroomStudent(@PathVariable Integer id){
-        Classroom_Student classroom_student = classroomStudentService.findById(id);
-        if( null == classroom_student){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public static class StudentRegister{
+        private List<Integer> idStudents;
+        private Integer idClassroom;
+
+        public List<Integer> getIdStudents() {
+            return idStudents;
         }
-        return new ResponseEntity<>(classroom_student, HttpStatus.OK);
-    }
 
-    @PostMapping("/create")
-    public ResponseEntity<Classroom_Student> postClassroomStudent(@RequestBody Classroom_Student classroom_student){
-        classroomStudentService.create(classroom_student);
-        return new ResponseEntity<>(classroom_student,HttpStatus.OK);
-    }
-
-    @PutMapping("/update/{id}")
-    public ResponseEntity<Classroom_Student> putClassroomStudent(@PathVariable Integer integer,
-                                                                 @RequestBody Classroom_Student classroom_student){
-        if( null == classroomStudentService.findById(integer)){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        public Integer getIdClassroom() {
+            return idClassroom;
         }
-        classroom_student.setId(integer);
-        classroomStudentService.update(classroom_student);
-        return new ResponseEntity<>(classroom_student,HttpStatus.OK);
     }
-
-    @DeleteMapping
-    public ResponseEntity<Classroom_Student> deleteClassroomStudent(@PathVariable Integer integer){
-        if(null == classroomStudentService.findById(integer)){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        classroomStudentService.delete(integer);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
 
 }

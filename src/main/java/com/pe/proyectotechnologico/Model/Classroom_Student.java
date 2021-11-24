@@ -1,12 +1,11 @@
 package com.pe.proyectotechnologico.Model;
-
-
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 
 import javax.persistence.*;
+
+import java.util.List;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -29,7 +28,4 @@ public class Classroom_Student {
     @ManyToOne
     @JoinColumn(name = "id_classroom")
     private Classroom classroom_2;
-
-
-
 }

@@ -14,6 +14,7 @@ public interface StudentRepository extends JpaRepository<Student,Integer> {
             "FROM Student s\n" +
             "INNER JOIN Classroom_Student cs ON s.id = cs.student.id\n" +
             "WHERE cs.classroom_2.id = ?1\n" +
-            "AND s.status = true")
+            "AND s.status = true\n" +
+            "AND cs.status = true")
     List<Student> findStudentsByClassroom(Integer idClassroom);
 }
