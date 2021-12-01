@@ -38,5 +38,9 @@ public class Student implements java.io.Serializable {
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
     private List<Classroom_Student> classroom_students;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
+    private List<Attendance> attendances;
+
 
 }

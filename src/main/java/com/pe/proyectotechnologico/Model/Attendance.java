@@ -1,16 +1,12 @@
 package com.pe.proyectotechnologico.Model;
 
-
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-
 import java.time.LocalDate;
-import java.util.List;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -18,21 +14,22 @@ import static javax.persistence.GenerationType.IDENTITY;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "Lesson")
-public class Lesson {
+@Table(name = "Attendance")
+public class Attendance {
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "idLesson", unique = true, nullable = false)
+    @Column(name = "idAttendance", unique = true, nullable = false)
     private Integer id;
+    private Boolean attendedClass;
     @JsonFormat
             (shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate date;
 
-    @ManyToOne
-    @JoinColumn(name = "id_classroom")
-    private Classroom classroom;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "idStudent", referencedColumnName = "idStudent")
+    private Student student;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL)
-    private List<Attendance> attendances;
+    @ManyToOne
+    @JoinColumn(name = "idLesson")
+    private Lesson lesson;
 }

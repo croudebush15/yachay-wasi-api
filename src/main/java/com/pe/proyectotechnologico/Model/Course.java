@@ -30,11 +30,6 @@ public class Course {
         @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
         private List<Classroom> classroomList;
 
-        @JsonIgnore
-        @OneToMany(mappedBy = "course",cascade = CascadeType.ALL)
-        private List<Material> materialList;
-
-
         @Override
         public String toString() {
                 return "Course{" +

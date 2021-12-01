@@ -1,7 +1,6 @@
 package com.pe.proyectotechnologico.Service;
 
 import com.pe.proyectotechnologico.Model.Classroom;
-import com.pe.proyectotechnologico.Model.Student;
 import com.pe.proyectotechnologico.Model.Teacher;
 import com.pe.proyectotechnologico.Repository.ClassroomRepository;
 import org.springframework.stereotype.Service;
