@@ -58,8 +58,8 @@ public class LessonService implements CrudService<Lesson,Integer> {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate date = LocalDate.parse(startDate,formatter);
         for (int i = 0; i < quantityLessons; i++){
-            date = date.plusWeeks(i);
-            Lesson lesson  = new Lesson(date, classroom);
+            LocalDate lessonDate = date.plusWeeks(i);
+            Lesson lesson  = new Lesson(lessonDate, classroom);
             lessonList.add(lesson);
         }
         createAll(lessonList);
