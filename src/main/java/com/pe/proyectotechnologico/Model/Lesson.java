@@ -27,7 +27,9 @@ public class Lesson {
     @JsonFormat
             (shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate date;
+    //private Boolean isCurrentLesson;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_classroom")
     private Classroom classroom;
@@ -35,4 +37,9 @@ public class Lesson {
     @JsonIgnore
     @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL)
     private List<Attendance> attendances;
+
+    public Lesson(LocalDate date, Classroom classroom) {
+        this.date = date;
+        this.classroom = classroom;
+    }
 }
