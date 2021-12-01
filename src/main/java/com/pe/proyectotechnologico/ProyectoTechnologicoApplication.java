@@ -28,7 +28,7 @@ public class ProyectoTechnologicoApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        Classroom classroom = classroomService.findById(101);
+        //Classroom classroom = classroomService.findById(101);
         //lessonService.generateWeeklyLessonsForClassroom(classroom,15,"2021-12-06");
 
     }
