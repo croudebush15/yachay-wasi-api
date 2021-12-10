@@ -1,6 +1,7 @@
 package com.pe.proyectotechnologico.Service;
 
 import com.pe.proyectotechnologico.Model.Attendance;
+import com.pe.proyectotechnologico.Model.Lesson;
 import com.pe.proyectotechnologico.Repository.AttendanceRepository;
 import org.springframework.stereotype.Service;
 
@@ -40,7 +41,10 @@ public class AttendanceService implements CrudService<Attendance, Integer> {
         return null;
     }
 
-    public void markAttendanceLesson(List<Attendance> attendances) {
-        repository.saveAll(attendances);
+    public void markAttendanceLesson(Lesson lesson) {
+        lesson.getAttendances().forEach(attendance -> {
+            attendance.setLesson(lesson);
+        });
+        repository.saveAll(lesson.getAttendances());
     }
 }

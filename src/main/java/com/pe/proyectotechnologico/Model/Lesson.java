@@ -34,7 +34,7 @@ public class Lesson {
     @JoinColumn(name = "id_classroom")
     private Classroom classroom;
 
-    @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "lesson", cascade = CascadeType.MERGE)
     private List<Attendance> attendances;
 
     public Lesson(LocalDate date, Classroom classroom) {

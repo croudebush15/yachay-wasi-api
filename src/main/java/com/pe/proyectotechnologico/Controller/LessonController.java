@@ -60,8 +60,8 @@ public class LessonController {
                                                        @RequestBody Lesson lesson){
         User user = userService.getUserFromRequest(request);
         if(user == null) return new ResponseEntity(HttpStatus.BAD_REQUEST);
-        System.out.println("Lesson to save: " + lesson.toString());
-        lessonService.update(lesson);
+        //lessonService.update(lesson);
+        attendanceService.markAttendanceLesson(lesson);
         return new ResponseEntity(HttpStatus.CREATED);
     }
 

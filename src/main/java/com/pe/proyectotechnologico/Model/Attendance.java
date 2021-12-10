@@ -1,6 +1,7 @@
 package com.pe.proyectotechnologico.Model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,11 +21,13 @@ public class Attendance {
     @Column(name = "idAttendance", unique = true, nullable = false)
     private Integer id;
     private Boolean presentInClass;
+    private String report;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "idStudent", referencedColumnName = "idStudent")
     private Student student;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "idLesson")
     private Lesson lesson;

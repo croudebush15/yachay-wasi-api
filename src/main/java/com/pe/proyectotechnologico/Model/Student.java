@@ -39,7 +39,7 @@ public class Student implements java.io.Serializable {
     private List<Classroom_Student> classroom_students;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "student", cascade = CascadeType.MERGE)
     private List<Attendance> attendances;
 
 
