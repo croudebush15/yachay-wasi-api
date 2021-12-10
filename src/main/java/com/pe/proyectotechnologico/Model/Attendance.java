@@ -19,7 +19,7 @@ public class Attendance {
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "idAttendance", unique = true, nullable = false)
     private Integer id;
-    private Boolean attendedClass;
+    private Boolean presentInClass;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "idStudent", referencedColumnName = "idStudent")

@@ -51,7 +51,8 @@ public class LessonService implements CrudService<Lesson,Integer> {
 
     public List<Lesson> findAllByClassroom(Integer idClassroom) {
         Classroom classroom = classroomService.findById(idClassroom);
-        return lessonRepository.getAllByClassroomOrderByDateAsc(classroom);}
+        return lessonRepository.getAllByClassroomOrderByDateAsc(classroom);
+    }
 
     public void generateWeeklyLessonsForClassroom(Classroom classroom, Integer quantityLessons, String startDate){
         List<Lesson> lessonList = new ArrayList<>();

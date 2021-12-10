@@ -1,6 +1,5 @@
 package com.pe.proyectotechnologico.Controller;
 
-import com.pe.proyectotechnologico.Model.Attendance;
 import com.pe.proyectotechnologico.Model.Lesson;
 import com.pe.proyectotechnologico.Model.User;
 import com.pe.proyectotechnologico.Service.AttendanceService;
@@ -61,7 +60,8 @@ public class LessonController {
                                                        @RequestBody Lesson lesson){
         User user = userService.getUserFromRequest(request);
         if(user == null) return new ResponseEntity(HttpStatus.BAD_REQUEST);
-        attendanceService.markAttendanceLesson(lesson.getAttendances());
+        System.out.println("Lesson to save: " + lesson.toString());
+        lessonService.update(lesson);
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
