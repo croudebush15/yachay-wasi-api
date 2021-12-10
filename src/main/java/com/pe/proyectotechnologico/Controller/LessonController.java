@@ -1,7 +1,9 @@
 package com.pe.proyectotechnologico.Controller;
 
+import com.pe.proyectotechnologico.Model.Attendance;
 import com.pe.proyectotechnologico.Model.Lesson;
 import com.pe.proyectotechnologico.Model.User;
+import com.pe.proyectotechnologico.Service.AttendanceService;
 import com.pe.proyectotechnologico.Service.LessonService;
 import com.pe.proyectotechnologico.Service.UserService;
 import org.springframework.http.HttpStatus;
@@ -16,11 +18,14 @@ import java.util.List;
 public class LessonController {
 
     private final LessonService lessonService;
+    private final AttendanceService attendanceService;
     private final UserService userService;
 
     public LessonController(LessonService lessonService,
+                            AttendanceService attendanceService,
                             UserService userService) {
         this.lessonService = lessonService;
+        this.attendanceService = attendanceService;
         this.userService = userService;
     }
 
@@ -49,6 +54,15 @@ public class LessonController {
     public ResponseEntity<Lesson> postLesson(@RequestBody Lesson lesson){
         lessonService.create(lesson);
         return new ResponseEntity<>(lesson,HttpStatus.CREATED);
+    }
+
+    @PostMapping("/attendance")
+    public ResponseEntity<Lesson> markAttendanceLesson(HttpServletRequest request,
+                                                       @RequestBody Lesson lesson){
+        User user = userService.getUserFromRequest(request);
+        if(user == null) return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        attendanceService.markAttendanceLesson(lesson.getAttendances());
+        return new ResponseEntity(HttpStatus.CREATED);
     }
 
     @PutMapping("/update/{id}")

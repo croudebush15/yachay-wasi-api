@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -21,9 +20,6 @@ public class Attendance {
     @Column(name = "idAttendance", unique = true, nullable = false)
     private Integer id;
     private Boolean attendedClass;
-    @JsonFormat
-            (shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private LocalDate date;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "idStudent", referencedColumnName = "idStudent")
