@@ -4,8 +4,10 @@ import com.pe.proyectotechnologico.Model.Classroom;
 import com.pe.proyectotechnologico.Model.Teacher;
 import com.pe.proyectotechnologico.Model.User;
 import com.pe.proyectotechnologico.Service.ClassroomService;
+import com.pe.proyectotechnologico.Service.LessonService;
 import com.pe.proyectotechnologico.Service.TeacherService;
 import com.pe.proyectotechnologico.Service.UserService;
+import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,11 +23,16 @@ public class ClassroomController {
     private final UserService userService;
     private final ClassroomService classroomService;
     private final TeacherService teacherService;
+    private final LessonService lessonService;
 
-    public ClassroomController(ClassroomService classroomService, UserService userService, TeacherService teacherService) {
+    public ClassroomController(ClassroomService classroomService,
+                               UserService userService,
+                               TeacherService teacherService,
+                               LessonService lessonService) {
         this.classroomService = classroomService;
         this.userService = userService;
         this.teacherService = teacherService;
+        this.lessonService = lessonService;
     }
 
     @GetMapping
@@ -74,10 +81,12 @@ public class ClassroomController {
 
     @PostMapping
     public ResponseEntity<Classroom> postClassroom(HttpServletRequest request,
-                                                   @RequestBody Classroom classroom){
+                                                   @RequestBody NewClassroom newClassroom){
         if (!userService.isUserAdmin(request)) return new ResponseEntity(HttpStatus.FORBIDDEN);
+        Classroom classroom = newClassroom.getClassroom();
         if (classroomService.teacherHasClassAtTime(classroom)) return new ResponseEntity(HttpStatus.BAD_REQUEST);
         classroomService.create(classroom);
+        lessonService.generateWeeklyLessonsForClassroom(classroom,newClassroom.getQuantityLessons(),newClassroom.getStartDate());
         return new ResponseEntity(classroom,HttpStatus.CREATED);
     }
 
@@ -111,5 +120,12 @@ public class ClassroomController {
         if(classroomService.findById(classroom.getId()) == null) return new ResponseEntity(HttpStatus.NO_CONTENT);
         classroomService.restoreClassroom(classroom);
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @Data
+    public static class NewClassroom{
+        private Classroom classroom;
+        private Integer quantityLessons;
+        private String startDate;
     }
 }
